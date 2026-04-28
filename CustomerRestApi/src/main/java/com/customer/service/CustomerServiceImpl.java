@@ -2,6 +2,7 @@ package com.customer.service;
 
 import com.customer.dto.CustomerDTO;
 import com.customer.entity.Customer;
+import com.customer.exception.CustomerNotFoundException;
 import com.customer.mapper.CustomerMapper;
 import com.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -37,14 +38,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO getCustomerById(Long id) {
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
+                .orElseThrow(() -> new CustomerNotFoundException(id));
         return customerMapper.toDto(customer);
     }
 
     @Override
     public void deleteCustomer(Long id) {
         if (!customerRepository.existsById(id)) {
-            throw new RuntimeException("Customer not found with id: " + id);
+            throw new CustomerNotFoundException(id);
         }
         customerRepository.deleteById(id);
     }
@@ -52,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO) {
         Customer existingCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));
+                .orElseThrow(() -> new CustomerNotFoundException(id));
 
         existingCustomer.setCustomerName(customerDTO.getName());
         existingCustomer.setAge(customerDTO.getAge());

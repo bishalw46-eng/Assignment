@@ -1,15 +1,30 @@
 package com.customer.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class CustomerDTO {
     private Long id;
+
+    @NotBlank(message = "Name is required")
     private String name;
-    private int age;
+
+    @NotNull(message = "Age is required")
+    @Min(value = 1, message = "Age must be greater than 0")
+    private Integer age;
+
+    @NotBlank(message = "Address is required")
     private String address;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Enter a valid email address")
     private String email;
 
     public CustomerDTO() {}
 
-    public CustomerDTO(String name, int age, String address, String email) {
+    public CustomerDTO(String name, Integer age, String address, String email) {
         this.name = name;
         this.age = age;
         this.address = address;
@@ -32,11 +47,11 @@ public class CustomerDTO {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 

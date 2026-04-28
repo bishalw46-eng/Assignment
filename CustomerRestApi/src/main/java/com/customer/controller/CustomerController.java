@@ -3,6 +3,7 @@ package com.customer.controller;
 
 import com.customer.dto.CustomerDTO;
 import com.customer.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping("/customer")
-    public CustomerDTO createCustomer(@RequestBody CustomerDTO customerDTO) {
+    public CustomerDTO createCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
         return customerService.createCustomer(customerDTO);
     }
 
@@ -37,7 +38,7 @@ public class CustomerController {
     }
 
     @PutMapping("/customer/{id}")
-    public CustomerDTO updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
+    public CustomerDTO updateCustomer(@PathVariable Long id, @Valid @RequestBody CustomerDTO customerDTO) {
         return customerService.updateCustomer(id, customerDTO);
     }
 
